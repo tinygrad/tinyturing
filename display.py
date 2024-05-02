@@ -2,6 +2,7 @@ import math, os
 import serial, pygame
 
 # commands
+RESTART = bytearray([0x84, 0xef, 0x69, 0x00, 0x00, 0x00, 0x01])
 OPTIONS = bytearray([0x7d, 0xef, 0x69, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x2d])
 SET_BRIGHTNESS = bytearray([0x7b, 0xef, 0x69, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00])
 PRE_UPDATE_BITMAP = bytearray([0x86, 0xef, 0x69, 0x00, 0x00, 0x00, 0x01])
@@ -13,7 +14,7 @@ QUERY_STATUS = bytearray([0xcf, 0xef, 0x69, 0x00, 0x00, 0x00, 0x01])
 WIDTH, HEIGHT = 800, 480
 class Display:
   def __init__(self, port):
-    self.lcd = serial.Serial(port, 115200)
+    self.lcd = serial.Serial(port, 115200, timeout=5, write_timeout=5, rtscts=True)
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     pygame.init()
     pygame.font.init()
@@ -30,7 +31,10 @@ class Display:
     if payload is not None: command += payload
     padding = 0 if command[0] != 0x2c else 0x2c
     if not ((cmd_len:=len(command)) / 250).is_integer(): command += bytearray([padding] * (250 * math.ceil(cmd_len / 250) - cmd_len))
-    self.lcd.write(command)
+    try: self.lcd.write(command)
+    except serial.SerialTimeoutException:
+      self.lcd.reset_input_buffer()
+      self.lcd.write(command)
 
   def text(self, text, size, *args, **kwargs):
     if size not in self.font_cache: self.font_cache[size] = pygame.font.Font(None, size)
