@@ -17,7 +17,7 @@ class Display:
     os.environ["SDL_VIDEODRIVER"] = "dummy"
     pygame.init()
     pygame.font.init()
-    self.font = pygame.font.Font(None, 50)
+    self.font_cache = {}
     self.framebuffer = pygame.Surface((WIDTH, HEIGHT), flags=pygame.SRCALPHA)
 
     # initialize
@@ -32,7 +32,9 @@ class Display:
     if not ((cmd_len:=len(command)) / 250).is_integer(): command += bytearray([padding] * (250 * math.ceil(cmd_len / 250) - cmd_len))
     self.lcd.write(command)
 
-  def text(self, text, *args, **kwargs): return self.font.render(text, *args, **kwargs)
+  def text(self, text, size, *args, **kwargs):
+    if size not in self.font_cache: self.font_cache[size] = pygame.font.Font(None, size)
+    return self.font_cache[size].render(text, *args, **kwargs)
   def blit(self, source, dest=(0, 0), area=None): self.framebuffer.blit(source, dest, area)
 
   def flip(self):
