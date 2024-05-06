@@ -23,6 +23,7 @@
                 pygame
                 numpy
                 numba
+                bdffont
               ]);
           in [
             pythonWithPackages
