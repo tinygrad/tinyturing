@@ -20,12 +20,8 @@
               with p; [
                 pyserial
                 pillow
-                pygame
                 numpy
                 numba
-                bdffont
-                pymunk
-                opencv4
               ]);
           in [
             pythonWithPackages
