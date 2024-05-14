@@ -24,6 +24,8 @@
                 numpy
                 numba
                 bdffont
+                pymunk
+                opencv4
               ]);
           in [
             pythonWithPackages
