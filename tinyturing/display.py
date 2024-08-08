@@ -61,7 +61,7 @@ class Display:
       self._connect()
       self.lcd.write(command)
 
-  def text(self, text, style="mono"):
+  def text(self, text, style="sans"):
     if style == "sans": return _blit_text(text, self.font)
     elif style == "mono": return _blit_text(text, self.font_mono)
     else: raise ValueError("Invalid style")
