@@ -23,25 +23,16 @@ class Anchor(Enum):
     """
     Return the offset of the anchor point for the given component.
     """
-    match self:
-      case Anchor.TOP_LEFT:
-        return 0, 0
-      case Anchor.TOP_CENTER:
-        return -component.width // 2, 0
-      case Anchor.TOP_RIGHT:
-        return -component.width, 0
-      case Anchor.MIDDLE_LEFT:
-        return 0, -component.height // 2
-      case Anchor.MIDDLE_CENTER:
-        return -component.width // 2, -component.height // 2
-      case Anchor.MIDDLE_RIGHT:
-        return -component.width, -component.height // 2
-      case Anchor.BOTTOM_LEFT:
-        return 0, -component.height
-      case Anchor.BOTTOM_CENTER:
-        return -component.width // 2, -component.height
-      case Anchor.BOTTOM_RIGHT:
-        return -component.width, -component.height
+    if self == Anchor.TOP_LEFT: return 0, 0
+    elif self == Anchor.TOP_CENTER: return -component.width // 2, 0
+    elif self == Anchor.TOP_RIGHT: return -component.width, 0
+    elif self == Anchor.MIDDLE_LEFT: return 0, -component.height // 2
+    elif self == Anchor.MIDDLE_CENTER: return -component.width // 2, -component.height // 2
+    elif self == Anchor.MIDDLE_RIGHT: return -component.width, -component.height // 2
+    elif self == Anchor.BOTTOM_LEFT: return 0, -component.height
+    elif self == Anchor.BOTTOM_CENTER: return -component.width // 2, -component.height
+    elif self == Anchor.BOTTOM_RIGHT: return -component.width, -component.height
+    else: raise ValueError(f"Unknown anchor: {self}")
 
 class Component:
   """
