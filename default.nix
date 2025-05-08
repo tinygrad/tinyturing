@@ -3,6 +3,7 @@
   numba,
   numpy,
   pyserial,
+  pillow,
   setuptools,
   wheel,
 }:
@@ -21,6 +22,7 @@ buildPythonPackage {
     numba
     numpy
     pyserial
+    pillow
   ];
 
   pythonImportsCheck = [ "tinyturing" ];
