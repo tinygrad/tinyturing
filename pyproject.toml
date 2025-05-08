@@ -7,3 +7,6 @@ version = "0.1.0"
 
 [tool.setuptools]
 packages = ["tinyturing"]
+
+[tool.setuptools.package-data]
+tinyturing = ["*.npy"]
